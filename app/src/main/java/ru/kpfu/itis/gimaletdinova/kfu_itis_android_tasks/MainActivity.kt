@@ -2,11 +2,52 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.fragments.FirstFragment
 
 class MainActivity : AppCompatActivity() {
+
+    private val fragmentContainerId: Int = R.id.main_activity_container
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        goToScreen(
+            ActionType.ADD,
+            FirstFragment(),
+            FirstFragment.FIRST_FRAGMENT_TAG,
+            true
+        )
+
+    }
+
+    fun goToScreen(
+        actionType: ActionType,
+        destination: Fragment,
+        tag: String? = null,
+        isAddToBackStack: Boolean = true,
+    ) {
+        supportFragmentManager.beginTransaction().apply {
+            when (actionType) {
+                ActionType.ADD -> {
+                    this.add(fragmentContainerId, destination, tag)
+                }
+
+                ActionType.REPLACE -> {
+                    this.replace(fragmentContainerId, destination, tag)
+                }
+
+                ActionType.REMOVE -> {
+                    this.remove(destination)
+                }
+
+                else -> Unit
+            }
+            if (isAddToBackStack) {
+                this.addToBackStack(null)
+            }
+        }.commit()
     }
 }
 

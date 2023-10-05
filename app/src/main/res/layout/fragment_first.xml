@@ -14,12 +14,12 @@
         android:layout_marginTop="120dp"
         android:background="@color/white"
         android:padding="8dp"
-        android:text="First screen"
         android:textColor="@color/pink"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="First screen" />
 
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -27,16 +27,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_pink"
-        android:hint="Enter your text here"
-        android:textColor="@color/white"
-        tools:text="hi"
         android:gravity="center"
+        android:hint="@string/first_screen_hint"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/next_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/text_tv"
+        tools:text="hi" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/next_btn"
@@ -45,7 +45,7 @@
         android:layout_marginBottom="120dp"
         android:background="@color/light_pink"
         android:padding="8dp"
-        android:text="next"
+        android:text="@string/button_next"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
