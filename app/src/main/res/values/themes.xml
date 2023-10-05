@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Kfu_itis_android_tasks" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Kfu_itis_android_tasks" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/purple</item>
 
