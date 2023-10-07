@@ -1,32 +1,57 @@
 package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.ActivityMainBinding
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.fragments.FirstFragment
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.fragments.FourthFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragmentContainerId: Int = R.id.main_activity_container
+    private var binding: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+        }
 
         goToScreen(
+            R.id.main_activity_container,
             ActionType.ADD,
             FirstFragment(),
             FirstFragment.FIRST_FRAGMENT_TAG,
             true
         )
 
+        binding?.run {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+                mainActivityContainer2.visibility = View.VISIBLE
+
+                goToScreen(
+                    R.id.main_activity_container_2,
+                    ActionType.ADD,
+                    FourthFragment(),
+                    FourthFragment.FOURTH_FRAGMENT_TAG,
+                    true
+                )
+            } else {
+                mainActivityContainer2.visibility = View.GONE
+            }
+        }
     }
 
     fun goToScreen(
+        fragmentContainerId: Int,
         actionType: ActionType,
         destination: Fragment,
         tag: String? = null,
-        isAddToBackStack: Boolean = true,
+        isAddToBackStack: Boolean = true
     ) {
         supportFragmentManager.beginTransaction().apply {
             when (actionType) {
@@ -49,40 +74,9 @@ class MainActivity : AppCompatActivity() {
             }
         }.commit()
     }
+
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
 }
-
-/*
-Обязательная часть:
-Реализовать приложение из трех экранов.
-Описание обязательных UI элементов:
-- Первый экран - текстовое поле, поле для ввода текста и одна кнопка
-- Второй экран - текстовое поле и две кнопки
-- Третий экран.- текстовое поле
-
-Логика первого экрана:
-- В текстовом поле отображать название вашего проекта. По нажатию на кнопку осуществлять переход на третий экран. При этом если текстовое поле не пустое, передавать введенный текст и отображать его в текстовом поле второго и третьего экранов.
-
-Навигация после нажатия на кнопку первого экрана должна быть выстроена следующий образом: первый экран -> нажатие на кнопку -> третий экран -> переход назад -> второй экран -> переход назад -> первый экран
-
-Логика второго экрана:
-- В текстовом поле отображается текст, который пользователь вводил на первом экране. Если на первом экране текст не был введен, отображать стандартный текст в духе "Второй экран".
-По нажатию на первую кнопку переходить на третий экран. Но если на третьем экране мы снова нажмем назад - возвращаться на первый экран. Как будет выглядеть цепочка:
-Первый экран -> нажатие на кнопку -> третий экран -> переход назад -> второй экран -> нажатие на кнопку -> третий экран -> переход назад -> первый экран
-
-По нажатию на вторую кнопку возвращаться к первом экрану
-
-Логика третьего экрана:
-- В текстовом поле отображается текст, который пользователь вводил на первом экране. Если на первом экране текст не был введен, отображать стандартный текст в духе "Третий экран"
-
-Опциональная часть на доп. баллы:
-Реализовать поддержку горизонтальной ориентации в вашем приложении.
-На первом экране добавляется еще одна кнопка, а к общей логике добавляется 4-ый экран (на 4-ом экране только 3 текстовых поля).
-Общее описание новой логики:
-- Если пользователь находится на первом экране и меняет ориентацию устройства, изменять общий макет таким образом, чтобы отображался сразу 1-ый и 4-ый экран рядом. Далее пользователь вводит текст в текстовое поле, жмет на новую кнопку "Сохранить" -> текстовое поле очищается, а текст из него отображается в одном из текстовых полей 4-го экрана. Далее пользователь снова вводит текст -> жмет "Сохранить" - поле очищается, текст переносится на 4-ый экран. Если текст был введен и сохранен более 3 раз - показывать 3 последних результата, более ранние затирать
-
-Что должно быть на скринкасте:
-Нужно показать, как ваше приложение обрабатывает 2 цепочки действий:
-1) -- Первый экран -> нажатие на кнопку -> третий экран -> переход назад -> второй экран -> переход назад -> первый экран
-2) -- Первый экран -> нажатие на кнопку -> третий экран -> переход назад -> второй экран -> нажатие на кнопку -> третий экран -> переход назад -> первый экран
-3) Если вы реализовали опциональное задание, записать логику с горизонтальной ориентацией и сохранением текста
- */

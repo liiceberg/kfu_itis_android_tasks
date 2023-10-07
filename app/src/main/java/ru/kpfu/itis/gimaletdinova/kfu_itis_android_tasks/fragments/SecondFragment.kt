@@ -39,6 +39,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
                 parentFragmentManager.popBackStack()
 
                 (requireActivity() as? MainActivity)?.goToScreen(
+                    fragmentContainerId = R.id.main_activity_container,
                     actionType = ActionType.REPLACE,
                     destination = ThirdFragment.newInstance(enteredText),
                     tag = ThirdFragment.THIRD_FRAGMENT_TAG,
