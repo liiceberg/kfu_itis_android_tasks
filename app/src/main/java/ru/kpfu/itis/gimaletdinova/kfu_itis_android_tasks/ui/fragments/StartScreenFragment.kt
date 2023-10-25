@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
+package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentStartScreenBinding
 
 
@@ -88,6 +89,8 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
                 override fun afterTextChanged(input: Editable?) {
                     if (!verifyPhone()) {
                         phoneEt.error = context?.getString(R.string.phone_error)
+                    } else {
+                        phoneEt.error = null
                     }
                     verifyAll()
                 }
@@ -97,6 +100,8 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
             countEt.addTextChangedListener{
                 if (!verifyCount()) {
                     countEt.error = context?.getString(R.string.count_error)
+                } else {
+                    countEt.error = null
                 }
                 verifyAll()
             }
@@ -105,7 +110,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
                 parentFragmentManager.beginTransaction()
                     .replace(
                         R.id.container,
-                        QuestionnaireFragment(),
+                        PageFragment.newInstance(countEt.text.toString().toInt()),
                     )
                     .addToBackStack(null)
                     .commit()
@@ -114,7 +119,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
         }
     }
     private fun verifyPhone(): Boolean {
-        val len = binding?.countEt?.text?.length
+        val len = binding?.phoneEt?.text?.length
         return len == 18
     }
 
