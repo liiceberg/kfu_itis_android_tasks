@@ -56,7 +56,7 @@ class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
 
     companion object {
         const val QUESTIONNAIRE_FRAGMENT_TAG = "QUESTIONNAIRE_FRAGMENT_TAG"
-        fun newInstance(position: Int, question: QuestionData) = PageFragment().apply {
+        fun newInstance(position: Int, question: QuestionData) = QuestionnaireFragment().apply {
             arguments = bundleOf(
                 ParamsKey.QUESTION_POSITION_KEY to position,
                 ParamsKey.QUESTION_KEY to question

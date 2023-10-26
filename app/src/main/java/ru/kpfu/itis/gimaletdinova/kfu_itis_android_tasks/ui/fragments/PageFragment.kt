@@ -11,6 +11,8 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ParamsKey
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.FragmentAdapter
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentPageBinding
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model.AnswerData
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model.QuestionData
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.QuestionGenerator
 
 class PageFragment : Fragment(R.layout.fragment_page) {
@@ -29,10 +31,9 @@ class PageFragment : Fragment(R.layout.fragment_page) {
             val number = requireArguments().getInt(ParamsKey.QUESTIONS_NUMBER_KEY)
             val questions = QuestionGenerator.getQuestions(number)
 //TODO which FragmentManager??
-            questionnaireVp.apply {
-                adapter = FragmentAdapter(questions, parentFragmentManager, lifecycle)
+            questionnaireVp.adapter = FragmentAdapter(questions, childFragmentManager, lifecycle)
 
-                registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            questionnaireVp.registerOnPageChangeCallback(object : OnPageChangeCallback() {
 
                     override fun onPageScrolled(
                         position: Int,
@@ -47,7 +48,7 @@ class PageFragment : Fragment(R.layout.fragment_page) {
                     }
 
                 })
-            }
+
         }
 
     }

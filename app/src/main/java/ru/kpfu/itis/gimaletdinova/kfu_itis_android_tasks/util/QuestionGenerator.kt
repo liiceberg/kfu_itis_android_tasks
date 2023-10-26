@@ -21,7 +21,7 @@ object QuestionGenerator {
                 }
                 1-> {
                     question = String.format("$a x $b")
-                    answer = a + b
+                    answer = a * b
                 }
 
             }
