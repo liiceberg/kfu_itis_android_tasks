@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model.QuestionData
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.QuestionnaireFragment
 
-class FragmentAdapter(
+class QuestionnairePageAdapter(
     private val questions: List<QuestionData>,
     manager: FragmentManager,
     lifecycle: Lifecycle

@@ -7,5 +7,5 @@
     <string name="start">start</string>
     <string name="save">save</string>
     <string name="phone_error">Phone must contain 11 digits</string>
-    <string name="count_error">Value must be from 9 to 30</string>
+    <string name="count_error">Value must be from 5 to 30</string>
 </resources>

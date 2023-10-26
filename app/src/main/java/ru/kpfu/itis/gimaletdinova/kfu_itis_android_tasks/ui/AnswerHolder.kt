@@ -21,6 +21,7 @@ class AnswerHolder(
         with(binding) {
             answerTv.text = item.answer.toString()
             answerRb.isChecked = item.isChecked
+            answerRb.isEnabled = !item.isChecked
         }
     }
 }

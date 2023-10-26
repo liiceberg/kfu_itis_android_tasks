@@ -2,33 +2,17 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.ActivityMainBinding
-import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.PageFragment
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.StartScreenFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        binding = ActivityMainBinding.inflate(layoutInflater).also {
-            setContentView(it.root)
-        }
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container, StartScreenFragment())
             .commit()
-//        val f = PageFragment.newInstance(10)
-//        supportFragmentManager.beginTransaction()
-//            .add(R.id.container, f)
-//            .addToBackStack(null)
-//            .commit()
-    }
-
-    override fun onDestroy() {
-        binding = null
-        super.onDestroy()
     }
 }
 

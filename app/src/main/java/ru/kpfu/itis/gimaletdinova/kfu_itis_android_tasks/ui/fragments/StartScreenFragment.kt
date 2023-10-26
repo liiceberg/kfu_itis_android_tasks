@@ -110,7 +110,8 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
                 parentFragmentManager.beginTransaction()
                     .replace(
                         R.id.container,
-                        PageFragment.newInstance(countEt.text.toString().toInt()),
+                        QuestionnairePageFragment.newInstance(countEt.text.toString().toInt()),
+                        QuestionnairePageFragment.QUESTIONNAIRE_PAGE_FRAGMENT_TAG
                     )
                     .addToBackStack(null)
                     .commit()
@@ -125,7 +126,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
 
     private fun verifyCount(): Boolean {
         val count = binding?.countEt?.text.toString().toIntOrNull()
-        return count != null && count in 9..30
+        return count != null && count in 5..30
     }
 
     private fun verifyAll() {

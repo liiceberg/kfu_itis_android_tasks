@@ -12,12 +12,12 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.QuestionnaireAd
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentQuestionnaireBinding
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model.QuestionData
-import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.AnswerGenerator
-import kotlin.random.Random
 
 class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
     private var binding: FragmentQuestionnaireBinding? = null
     private var adapterRv: QuestionnaireAdapter? = null
+    private var answersList = mutableListOf<AnswerData>()
+    private var checkedPosition = -1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,26 +27,57 @@ class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRv()
+        initRv(savedInstanceState)
     }
 
-    private fun initRv() {
-        val question = requireArguments().getSerializable(ParamsKey.QUESTION_KEY) as QuestionData
-        adapterRv = QuestionnaireAdapter(
-            items = question.answers.toMutableList(),
-            onItemChecked = { position -> updateAnswer(position)
-            },
-            onRootClicked = {position -> updateAnswer(position)}
-            )
-        binding?.run {
-            questionTv.text = question.formulation
-            questionnaireRv.adapter = adapterRv
+    private fun initRv(savedInstanceState: Bundle?) {
+        val question = arguments?.getSerializable(ParamsKey.QUESTION_KEY) as? QuestionData
 
+        question?.apply {
+            answersList = answers.toMutableList()
+        }
+
+        adapterRv = QuestionnaireAdapter(
+            items = answersList,
+            onItemChecked = { position -> updateCheckedAnswerPosition(position) },
+            onRootClicked = { position -> updateCheckedAnswerPosition(position) }
+        )
+
+        savedInstanceState?.let { bundle ->
+            val position = bundle.getInt(ParamsKey.CHECKED_ANSWER)
+
+            adapterRv?.apply {
+                if (position != -1) {
+                    items[position].isChecked = true
+                    checkedPosition = position
+                }
+            }
+        }
+
+        binding?.run {
+            questionTv.text = question?.formulation
+            questionnaireRv.adapter = adapterRv
         }
     }
 
-    private fun updateAnswer(position: Int) {
-// TODO
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(ParamsKey.CHECKED_ANSWER, checkedPosition)
+    }
+
+    private fun updateCheckedAnswerPosition(position: Int) {
+        if (checkedPosition != -1) {
+            answersList[checkedPosition].isChecked = !answersList[checkedPosition].isChecked
+            adapterRv?.notifyItemChanged(checkedPosition)
+        } else {
+            val f = requireActivity()
+                .supportFragmentManager
+                .findFragmentByTag(QuestionnairePageFragment.QUESTIONNAIRE_PAGE_FRAGMENT_TAG)
+                    as QuestionnairePageFragment
+            f.updateCount()
+        }
+        answersList[position].isChecked = !answersList[position].isChecked
+        checkedPosition = position
+        adapterRv?.notifyItemChanged(position)
     }
 
     override fun onDestroyView() {
@@ -55,7 +86,6 @@ class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
     }
 
     companion object {
-        const val QUESTIONNAIRE_FRAGMENT_TAG = "QUESTIONNAIRE_FRAGMENT_TAG"
         fun newInstance(position: Int, question: QuestionData) = QuestionnaireFragment().apply {
             arguments = bundleOf(
                 ParamsKey.QUESTION_POSITION_KEY to position,
