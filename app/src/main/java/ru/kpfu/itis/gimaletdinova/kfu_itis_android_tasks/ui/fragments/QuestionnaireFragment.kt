@@ -27,10 +27,6 @@ class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRv(savedInstanceState)
-    }
-
-    private fun initRv(savedInstanceState: Bundle?) {
         val question = arguments?.getSerializable(ParamsKey.QUESTION_KEY) as? QuestionData
 
         question?.apply {
@@ -66,7 +62,7 @@ class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
 
     private fun updateCheckedAnswerPosition(position: Int) {
         if (checkedPosition != -1) {
-            answersList[checkedPosition].isChecked = !answersList[checkedPosition].isChecked
+            answersList[checkedPosition].isChecked = false
             adapterRv?.notifyItemChanged(checkedPosition)
         } else {
             val f = requireActivity()
@@ -75,7 +71,7 @@ class QuestionnaireFragment : Fragment(R.layout.fragment_questionnaire) {
                     as QuestionnairePageFragment
             f.updateCount()
         }
-        answersList[position].isChecked = !answersList[position].isChecked
+        answersList[position].isChecked = true
         checkedPosition = position
         adapterRv?.notifyItemChanged(position)
     }

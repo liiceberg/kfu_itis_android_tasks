@@ -36,8 +36,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-                }
+                ) {}
 
                 override fun onTextChanged(
                     input: CharSequence?,
@@ -51,13 +50,13 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
                             phoneEt.setSelection(phoneEt.text?.length ?: 0)
                         }
 
-                        if (input.length == 7 && start > 0 && before == 0) {
+                        if (input.length == 7 && before == 0) {
                             phoneEt.removeTextChangedListener(this)
                             phoneEt.setText("${input})-")
                             phoneEt.setSelection(phoneEt.text?.length ?: 0)
                             phoneEt.addTextChangedListener(this)
                         }
-                        if ((input.length == 12 || input.length == 15) && start > 0 && before == 0) {
+                        if ((input.length == 12 || input.length == 15) && before == 0) {
                             phoneEt.removeTextChangedListener(this)
                             phoneEt.setText("${input}-")
                             phoneEt.setSelection(phoneEt.text?.length ?: 0)
@@ -89,9 +88,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
                 override fun afterTextChanged(input: Editable?) {
                     if (!verifyPhone()) {
                         phoneEt.error = context?.getString(R.string.phone_error)
-                    } else {
-                        phoneEt.error = null
-                    }
+                    } else
                     verifyAll()
                 }
 
@@ -100,8 +97,6 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen) {
             countEt.addTextChangedListener{
                 if (!verifyCount()) {
                     countEt.error = context?.getString(R.string.count_error)
-                } else {
-                    countEt.error = null
                 }
                 verifyAll()
             }
