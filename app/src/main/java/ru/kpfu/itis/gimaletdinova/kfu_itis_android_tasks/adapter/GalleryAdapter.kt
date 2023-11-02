@@ -18,7 +18,9 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.DataType
 class GalleryAdapter(
     private val layoutManager: RecyclerView.LayoutManager,
     private val onLikeClicked: (position: Int, card: Card) -> Unit,
-    private val onRootClicked: (card: Card) -> Unit
+    private val onRootClicked: (card: Card) -> Unit,
+    private val onDeleteClicked: (position: Int, card: Card) -> Unit,
+    private val deleteOnLongClick: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val items = mutableListOf<Data>()
@@ -36,7 +38,9 @@ class GalleryAdapter(
             DataType.CARD.value -> CardViewHolder(
                 ItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 onLikeClicked,
-                onRootClicked
+                onRootClicked,
+                onDeleteClicked,
+                deleteOnLongClick
             )
 
             DataType.DATE.value -> DateViewHolder(
@@ -84,5 +88,10 @@ class GalleryAdapter(
     fun deleteItem(position: Int) {
         items.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun insertItem(position: Int, card: Card) {
+        items.add(position, card)
+        notifyItemInserted(position)
     }
 }

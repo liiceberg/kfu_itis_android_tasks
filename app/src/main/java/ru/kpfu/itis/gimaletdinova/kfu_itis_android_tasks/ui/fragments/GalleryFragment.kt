@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model.Card
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.GalleryAdapter
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
@@ -45,7 +46,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
         binding?.run {
             addBtn.setOnClickListener {
-                BottomSheetFragment(galleryAdapter).show(childFragmentManager, BottomSheetFragment.FRAGMENT_TAG)
+                BottomSheetFragment(galleryAdapter).show(
+                    childFragmentManager,
+                    BottomSheetFragment.FRAGMENT_TAG
+                )
                 manageWarning()
             }
         }
@@ -97,7 +101,9 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             galleryAdapter = GalleryAdapter(
                 currentLayoutManager,
                 ::onLikeClicked,
-                ::onRootClicked
+                ::onRootClicked,
+                ::onDeleteClicked,
+                number > 12
             )
             adapter = galleryAdapter
 
@@ -126,9 +132,23 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         parentFragmentManager.beginTransaction()
             .replace(
                 R.id.container,
-                CardViewFragment.newInstance(card.title, card.image, card.description))
+                CardViewFragment.newInstance(card.title, card.image, card.description)
+            )
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun onDeleteClicked(position: Int, card: Card) {
+        onDelete(position)
+        binding?.run {
+            Snackbar
+                .make(root, getString(R.string.cancel), Snackbar.LENGTH_SHORT)
+                .setAction(getString(R.string.yes)) {
+                    DataRepository.setItem(position, card)
+                    galleryAdapter?.insertItem(position, card)
+                }
+                .show()
+        }
     }
 
     private fun onDelete(position: Int) {
