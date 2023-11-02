@@ -91,6 +91,7 @@ object DataRepository {
     fun getItemsList(): List<Data> = dataList
 
 
+
     @SuppressLint("SimpleDateFormat")
     fun initDataList(number: Int): List<Data> {
         var count = SEPARATOR_VALUE
@@ -116,5 +117,9 @@ object DataRepository {
             index = Random.nextInt(dataList.size)
         }
         return dataList
+    }
+
+    fun deleteItem(position: Int) {
+        dataList.removeAt(position)
     }
 }

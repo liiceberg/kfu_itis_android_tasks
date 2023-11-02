@@ -80,4 +80,9 @@ class GalleryAdapter(
         items.addAll(list)
         diffResult.dispatchUpdatesTo(this)
     }
+
+    fun deleteItem(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
+    }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -15,6 +16,7 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.decorations.SimpleHorizontalMarginDecorator
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.decorations.SimpleVerticalMarginDecorator
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentGalleryBinding
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.holder.CardViewHolder
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.DataRepository
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.getValueInPx
 
@@ -32,14 +34,50 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val number = requireArguments().getInt(NUMBER_KEY)
+
         initRecyclerView(number)
+
+        if (number <= 12) {
+            addSwipeToDelete()
+        }
+
         binding?.run {
             addBtn.setOnClickListener {
                 BottomSheetFragment(galleryAdapter).show(childFragmentManager, BottomSheetFragment.FRAGMENT_TAG)
                 manageWarning()
             }
         }
+    }
+
+    private fun addSwipeToDelete() {
+        val itemTouchHelper = ItemTouchHelper(object :
+            ItemTouchHelper.Callback() {
+
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                return when (viewHolder) {
+                    is CardViewHolder -> makeMovementFlags(0, ItemTouchHelper.LEFT)
+                    else -> 0
+                }
+            }
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onDelete(viewHolder.adapterPosition)
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(binding?.galleryRv)
     }
 
     private fun initRecyclerView(number: Int) {
@@ -61,10 +99,12 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
                 ::onLikeClicked,
                 ::onRootClicked
             )
-
             adapter = galleryAdapter
-            val dataList = DataRepository.initDataList(number)
-            galleryAdapter?.setItems(dataList)
+
+            if (DataRepository.getItemsList().isEmpty()) {
+                DataRepository.initDataList(number)
+            }
+            galleryAdapter?.setItems(DataRepository.getItemsList())
             manageWarning()
         }
     }
@@ -89,6 +129,12 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
                 CardViewFragment.newInstance(card.title, card.image, card.description))
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun onDelete(position: Int) {
+        galleryAdapter?.deleteItem(position)
+        DataRepository.deleteItem(position)
+        manageWarning()
     }
 
     override fun onDestroyView() {
