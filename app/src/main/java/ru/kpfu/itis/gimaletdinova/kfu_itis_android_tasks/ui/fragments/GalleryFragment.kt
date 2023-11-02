@@ -3,7 +3,6 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments
 import android.os.Bundle
 import android.transition.ChangeBounds
 import android.transition.ChangeTransform
-import android.transition.Fade
 import android.transition.Slide
 import android.transition.Transition
 import android.transition.TransitionSet

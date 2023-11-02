@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentStartScreenBinding
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.DataRepository
 
 class StartScreenFragment: Fragment(R.layout.fragment_start_screen) {
 
@@ -30,6 +31,8 @@ class StartScreenFragment: Fragment(R.layout.fragment_start_screen) {
             applyBtn.setOnClickListener {
 
                 if (verifyNumber()) {
+
+                    DataRepository.clear()
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.container, GalleryFragment.newInstance(cardsNumber))
                         .addToBackStack(null)

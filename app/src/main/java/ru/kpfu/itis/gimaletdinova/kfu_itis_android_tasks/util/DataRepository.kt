@@ -120,4 +120,8 @@ object DataRepository {
     fun deleteItem(position: Int) {
         dataList.removeAt(position)
     }
+
+    fun clear() {
+        dataList.clear()
+    }
 }
