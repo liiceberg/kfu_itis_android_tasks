@@ -10,7 +10,7 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.ItemCardBin
 class CardViewHolder(
     private var binding: ItemCardBinding,
     private val onLikeClicked: (position: Int, card: Card) -> Unit,
-    private val onRootClicked: (card: Card) -> Unit,
+    private val onRootClicked: (card: Card, view: View) -> Unit,
     private val onDeleteClicked: (position: Int, card: Card) -> Unit,
     private val deleteOnLongClick: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -20,7 +20,9 @@ class CardViewHolder(
     init {
         with(binding) {
             root.setOnClickListener {
-                item?.let(onRootClicked)
+                item?.let { card ->
+                    onRootClicked(card, imageIv)
+                }
             }
             likeBtnIv.setOnClickListener {
                 item?.let {
@@ -48,6 +50,7 @@ class CardViewHolder(
             titleTv.text = item.title
             imageIv.setImageResource(item.image)
             changeLikeStatus(item.isLiked)
+            imageIv.transitionName = "card-$adapterPosition"
         }
     }
 

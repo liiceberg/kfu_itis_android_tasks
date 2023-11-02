@@ -1,6 +1,7 @@
 package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.DataType
 class GalleryAdapter(
     private val layoutManager: RecyclerView.LayoutManager,
     private val onLikeClicked: (position: Int, card: Card) -> Unit,
-    private val onRootClicked: (card: Card) -> Unit,
+    private val onRootClicked: (card: Card, view: View) -> Unit,
     private val onDeleteClicked: (position: Int, card: Card) -> Unit,
     private val deleteOnLongClick: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

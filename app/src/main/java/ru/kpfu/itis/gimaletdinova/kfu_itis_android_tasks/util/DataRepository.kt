@@ -90,8 +90,6 @@ object DataRepository {
 
     fun getItemsList(): List<Data> = dataList
 
-
-
     @SuppressLint("SimpleDateFormat")
     fun initDataList(number: Int): List<Data> {
         var count = SEPARATOR_VALUE

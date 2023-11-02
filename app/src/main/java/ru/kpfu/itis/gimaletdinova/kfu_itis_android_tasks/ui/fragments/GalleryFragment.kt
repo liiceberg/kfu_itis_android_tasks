@@ -1,10 +1,17 @@
 package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments
 
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.ChangeTransform
+import android.transition.Fade
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +49,12 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
         if (number <= 12) {
             addSwipeToDelete()
+        }
+
+
+        postponeEnterTransition()
+        (view.parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
         }
 
         binding?.run {
@@ -128,14 +141,25 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         galleryAdapter?.updateItem(position, card)
     }
 
-    private fun onRootClicked(card: Card) {
+    private fun onRootClicked(card: Card, view: View) {
+
+        val fragment = CardViewFragment.newInstance(card.title, card.image, card.description, "card-${card.id}")
+        fragment.sharedElementEnterTransition = prepareTransition()
+        fragment.sharedElementReturnTransition = prepareTransition()
+        fragment.enterTransition = Slide()
         parentFragmentManager.beginTransaction()
-            .replace(
-                R.id.container,
-                CardViewFragment.newInstance(card.title, card.image, card.description)
-            )
+            .addSharedElement(view, view.transitionName)
+            .replace(R.id.container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun prepareTransition(): Transition {
+        val set = TransitionSet()
+        set.ordering = TransitionSet.ORDERING_TOGETHER
+        set.addTransition(ChangeBounds())
+        set.addTransition(ChangeTransform())
+        return set
     }
 
     private fun onDeleteClicked(position: Int, card: Card) {
