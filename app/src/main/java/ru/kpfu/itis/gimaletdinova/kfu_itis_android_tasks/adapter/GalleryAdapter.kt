@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.diffutil.GalleryDiffUtil
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.ItemCardBinding
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.ItemDateBinding
@@ -17,7 +16,6 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.holder.DateViewHolde
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.DataType
 
 class GalleryAdapter(
-    private val layoutManager: RecyclerView.LayoutManager,
     private val onLikeClicked: (position: Int, card: Card) -> Unit,
     private val onRootClicked: (card: Card, view: View) -> Unit,
     private val onDeleteClicked: (position: Int, card: Card) -> Unit,
@@ -60,13 +58,7 @@ class GalleryAdapter(
         with(holder) {
             when (this) {
                 is CardViewHolder -> bindItem(items[position] as Card)
-                is DateViewHolder -> {
-                    if (layoutManager is StaggeredGridLayoutManager) {
-                        (itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).isFullSpan =
-                            true
-                    }
-                    bindItem(items[position] as Date)
-                }
+                is DateViewHolder -> bindItem(items[position] as Date)
             }
         }
     }

@@ -12,10 +12,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model.Card
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.adapter.GalleryAdapter
@@ -101,7 +102,17 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             val currentLayoutManager = if (number <= 12) {
                 LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             } else {
-                StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                val manager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+                manager.spanSizeLookup = object : SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return if ((position + 1) % 9 == 0) {
+                            2
+                        } else {
+                            1
+                        }
+                    }
+                }
+                manager
             }
 
             val marginValue = 8.getValueInPx(resources.displayMetrics)
@@ -111,7 +122,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             layoutManager = currentLayoutManager
 
             galleryAdapter = GalleryAdapter(
-                currentLayoutManager,
                 ::onLikeClicked,
                 ::onRootClicked,
                 ::onDeleteClicked,
@@ -142,7 +152,12 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun onRootClicked(card: Card, view: View) {
 
-        val fragment = CardViewFragment.newInstance(card.title, card.image, card.description, "card-${card.id}")
+        val fragment = CardViewFragment.newInstance(
+            card.title,
+            card.image,
+            card.description,
+            "card-${card.id}"
+        )
         fragment.sharedElementEnterTransition = prepareTransition()
         fragment.sharedElementReturnTransition = prepareTransition()
         fragment.enterTransition = Slide()
