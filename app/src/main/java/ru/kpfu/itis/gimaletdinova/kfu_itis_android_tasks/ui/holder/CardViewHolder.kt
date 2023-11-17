@@ -54,7 +54,7 @@ class CardViewHolder(
         }
     }
 
-    private fun changeLikeStatus(isLiked: Boolean) {
+    fun changeLikeStatus(isLiked: Boolean) {
         val likeDrawable = if (isLiked) R.drawable.suit_heart_fill else R.drawable.suit_heart
         binding.likeBtnIv.setImageResource(likeDrawable)
     }

@@ -71,6 +71,20 @@ class GalleryAdapter(
         }
     }
 
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isNotEmpty()) {
+            (payloads.first() as? Boolean)?.let { isLiked ->
+                (holder as? CardViewHolder)?.changeLikeStatus(isLiked)
+            }
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
     override fun getItemCount(): Int = items.size
 
     fun updateItem(position: Int, item: Card) {
