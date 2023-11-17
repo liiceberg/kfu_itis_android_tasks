@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">kfu_itis_android_tasks</string>
+    <string name="apply_button">Apply</string>
+    <string name="start_page_error_text_1">You should input a number</string>
+    <string name="start_page_error_text_2">Value must be from 0 to 45</string>
+    <string name="bottom_sheet_error_text">Value must be from 1 to 5</string>
+    <string name="add_extra_cards">Add extra cards</string>
+    <string name="add_btn">Add</string>
+    <string name="no_cards_text">There are no cards yet</string>
+    <string name="cancel">Cancel deletion</string>
+    <string name="yes">Yes</string>
 </resources>
