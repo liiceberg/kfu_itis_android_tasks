@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">kfu_itis_android_tasks</string>
+    <string name="title_main">Enter title and text of your notification here</string>
+    <string name="send_btn">Send</string>
+    <string name="title_hint">Title</string>
+    <string name="text_hint">Text</string>
+    <string name="notifications_settings_title">Notifications Settings</string>
+    <string name="coroutines_settings_title">Coroutines Settings</string>
+    <string name="medium_importance">Medium</string>
+    <string name="high_importance">High</string>
+    <string name="urgent_importance">Urgent</string>
+    <string name="importance">Importance</string>
+    <string name="visibility">Visibility</string>
+    <string name="public_visibility">Public</string>
+    <string name="secret_visibility">Secret</string>
+    <string name="private_visibility">Private</string>
+    <string name="long_text">Long text</string>
+    <string name="display_buttons">Display buttons</string>
+    <string name="async">Async</string>
+    <string name="stop_on_background">Stop on background</string>
+    <string name="number_of_coroutines">Number of coroutines</string>
+    <string name="run_btn">Run</string>
+    <string name="main">Main</string>
+    <string name="settings">Settings</string>
+    <string name="coroutines">Coroutines</string>
 </resources>

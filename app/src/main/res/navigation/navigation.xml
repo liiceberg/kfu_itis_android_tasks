@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainScreenFragment">
+
+    <fragment
+        android:id="@+id/coroutinesSettingsFragment"
+        android:name="ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.CoroutinesSettingsFragment"
+        android:label="CoroutinesSettingsFragment"
+        tools:layout="@layout/fragment_coroutines_settings"/>
+
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.MainScreenFragment"
+        android:label="MainScreenFragment"
+        tools:layout="@layout/fragment_main_screen"/>
+
+    <fragment
+        android:id="@+id/notificationsSettingsFragment"
+        android:name="ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.NotificationsSettingsFragment"
+        android:label="NotificationsSettingsFragment"
+        tools:layout="@layout/fragment_notifications_settings"/>
+
+</navigation>
