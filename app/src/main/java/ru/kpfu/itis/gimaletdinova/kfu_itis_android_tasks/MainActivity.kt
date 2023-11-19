@@ -2,9 +2,15 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +24,68 @@ class MainActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.menu).apply {
             setupWithNavController(controller)
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_DENIED
+            ) {
+                requestPermission()
+            }
+        }
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(POST_NOTIFICATIONS),
+            POST_NOTIFICATIONS_PERMISSION_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            POST_NOTIFICATIONS_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_DENIED) {
+                    if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS)) {
+                        AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.permission_denied_pattern))
+                            .setMessage(getString(R.string.permission_denied_first_desc))
+                            .setCancelable(false)
+                            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                                dialog.cancel()
+                                requestPermission()
+                            }
+                            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                                dialog.cancel()
+                                showPermissionDeniedDialog()
+                            }
+                            .show()
+
+                    } else {
+                        showPermissionDeniedDialog()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showPermissionDeniedDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.permission_denied_pattern))
+            .setMessage(getString(R.string.permission_denied_desc))
+            .setCancelable(false)
+            .show()
+    }
+
+    companion object {
+        private const val POST_NOTIFICATIONS_PERMISSION_CODE = 101
     }
 
 }
