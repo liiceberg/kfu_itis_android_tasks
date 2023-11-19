@@ -7,7 +7,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -81,6 +83,12 @@ class MainActivity : AppCompatActivity() {
             .setTitle(getString(R.string.permission_denied_pattern))
             .setMessage(getString(R.string.permission_denied_desc))
             .setCancelable(false)
+            .setPositiveButton(getString(R.string.settings)) { dialog, _ ->
+                val uri = Uri.parse("package:$packageName")
+                val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = uri
+                startActivity(intent)
+            }
             .show()
     }
 
