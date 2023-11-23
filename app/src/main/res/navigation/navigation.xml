@@ -15,7 +15,11 @@
         android:id="@+id/mainScreenFragment"
         android:name="ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.MainScreenFragment"
         android:label="MainScreenFragment"
-        tools:layout="@layout/fragment_main_screen"/>
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_notificationsSettingsFragment"
+            app:destination="@id/notificationsSettingsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/notificationsSettingsFragment"

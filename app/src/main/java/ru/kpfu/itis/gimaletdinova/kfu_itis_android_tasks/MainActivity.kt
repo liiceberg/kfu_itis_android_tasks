@@ -4,17 +4,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUiSaveStateControl
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.AirplaneModeHandler
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.CoroutinesUtil
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.NotificationsUtil
 
 class MainActivity : AppCompatActivity() {
+    @OptIn(NavigationUiSaveStateControl::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,10 +34,8 @@ class MainActivity : AppCompatActivity() {
         val controller =
             (supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment)
                 .navController
-
-        findViewById<BottomNavigationView>(R.id.menu).apply {
-            setupWithNavController(controller)
-        }
+        val bnv = findViewById<BottomNavigationView>(R.id.menu)
+        NavigationUI.setupWithNavController(bnv, controller, false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
@@ -36,14 +46,25 @@ class MainActivity : AppCompatActivity() {
                 requestPermission()
             }
         }
+
+        initReceiver()
+        NotificationsUtil.initChannels(this)
+
+        doIntentAction(intent.getIntExtra(NotificationsUtil.ACTION_NAME, 0))
     }
 
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(POST_NOTIFICATIONS),
-            POST_NOTIFICATIONS_PERMISSION_CODE
-        )
+    private fun doIntentAction(action: Int) {
+        when (action) {
+            NotificationsUtil.FIRST_BTN_REQUEST_CODE -> {
+                Toast.makeText(this, R.string.first_action_toast, Toast.LENGTH_SHORT).show()
+            }
+            NotificationsUtil.SECOND_BTN_REQUEST_CODE -> {
+                (supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment)
+                    .navController
+                    .navigate(R.id.action_mainScreenFragment_to_notificationsSettingsFragment)
+
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -78,24 +99,62 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(POST_NOTIFICATIONS),
+            POST_NOTIFICATIONS_PERMISSION_CODE
+        )
+    }
+
     private fun showPermissionDeniedDialog() {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.permission_denied_pattern))
             .setMessage(getString(R.string.permission_denied_desc))
             .setCancelable(false)
-            .setPositiveButton(getString(R.string.settings)) { dialog, _ ->
+            .setPositiveButton(getString(R.string.settings)) { _, _ ->
                 val uri = Uri.parse("package:$packageName")
-                val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = uri
                 startActivity(intent)
             }
             .show()
     }
 
-    companion object {
-        private const val POST_NOTIFICATIONS_PERMISSION_CODE = 101
+    private fun initReceiver() {
+        AirplaneModeHandler.init(this)
+        setAirplaneModeView()
+        val intentFilter = IntentFilter("android.intent.action.AIRPLANE_MODE")
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                AirplaneModeHandler.onAirplaneModeChanged()
+                setAirplaneModeView()
+            }
+        }
+        registerReceiver(receiver, intentFilter)
     }
 
+    private fun setAirplaneModeView() {
+        findViewById<ConstraintLayout>(R.id.airplane_mode_layout)
+            .visibility = if (AirplaneModeHandler.isAirplaneModeOn()) {
+                                View.VISIBLE
+                            } else {
+                                View.GONE
+                            }
+        AirplaneModeHandler.changeButtonEnable(findViewById(R.id.run_btn))
+        AirplaneModeHandler.changeButtonEnable(findViewById(R.id.send_btn))
+    }
+
+    override fun onStop() {
+        CoroutinesUtil.cancelJob(this)
+        super.onStop()
+    }
+
+    companion object {
+
+        private const val POST_NOTIFICATIONS_PERMISSION_CODE = 101
+    }
 }
 
 /*

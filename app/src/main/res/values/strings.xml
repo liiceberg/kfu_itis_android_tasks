@@ -27,6 +27,19 @@
     <string name="permission_denied_desc">Please, give permission in the settings</string>
     <string name="permission_denied_first_desc">We need permission to send notifications</string>
     <string name="go_to_settings">Settings</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="default_notification_channel_name">Default channel</string>
+    <string name="low_notification_channel_name">Low channel</string>
+    <string name="high_notification_channel_name">High channel</string>
+    <string name="empty_filed_error">Field must be not empty</string>
+    <string name="network_error">Network unavailable</string>
+    <string name="coroutines_notifications_title">Coroutines</string>
+    <string name="coroutines_notifications_text">My job here is done</string>
+    <string name="first_action">First action</string>
+    <string name="second_action">Second action</string>
+    <string name="first_action_toast">Hello</string>
+    <string name="stop_coroutines">Coroutines stopped</string>
+    <string name="coroutines_left_message">%1$d coroutines canceled</string>
+    <string name="coroutines_run_message">Run completed: %1$d</string>
 </resources>

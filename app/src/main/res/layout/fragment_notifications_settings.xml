@@ -30,8 +30,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_tv_notifications" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/importance_layout"
+    <RadioGroup
+        android:id="@+id/importance_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:text="@string/urgent_importance" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </RadioGroup>
 
 
     <TextView
@@ -74,10 +74,10 @@
         android:text="@string/visibility"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/importance_layout" />
+        app:layout_constraintTop_toBottomOf="@id/importance_group" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/visibility_layout"
+    <RadioGroup
+        android:id="@+id/visibility_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@id/visibility_title_tv">
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/visibility_medium_rb"
+            android:id="@+id/visibility_public_rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -94,20 +94,20 @@
             android:text="@string/public_visibility" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/visibility_high_rb"
+            android:id="@+id/visibility_secret_rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/secret_visibility" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/visibility_urgent_rb"
+            android:id="@+id/visibility_private_rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/private_visibility" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </RadioGroup>
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/long_text_cb"
@@ -117,7 +117,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/long_text"
-        app:layout_constraintTop_toBottomOf="@id/visibility_layout" />
+        app:layout_constraintTop_toBottomOf="@id/visibility_group" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/display_buttons_cb"
