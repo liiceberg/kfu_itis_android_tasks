@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">kfu_itis_android_tasks</string>
+    <string name="profile">Profile</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up_text">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="phone">Phone</string>
+    <string name="username">Username</string>
+    <string name="no_cards_in_db">The cards you create will be displayed here</string>
+    <string name="difficulty">Difficulty:\n $s</string>
+    <string name="instruments">Instruments:\n $s</string>
+    <string name="description">Description:\n $s</string>
+    <string name="create_new_card">Create new card</string>
+    <string name="create">Create</string>
+    <string name="title">Title</string>
+    <string name="difficulty_beginner">Beginner</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_master">Master</string>
+    <string name="choose_difficulty">Difficulty</string>
+    <string name="write_instruments">Instruments</string>
+    <string name="write_description">Description</string>
+    <string name="profile_phone">Phone: $s</string>
+    <string name="profile_username">Username: $s</string>
+    <string name="profile_email">Email: $s</string>
+    <string name="edit">Edit</string>
+    <string name="exit">Exit</string>
+    <string name="delete_account">Delete account</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="new_password_repeat">Repeat new password</string>
+    <string name="filter">Sort by</string>
 </resources>

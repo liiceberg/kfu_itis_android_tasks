@@ -1,21 +1,23 @@
 package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.ActivityMainBinding
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.base.BaseActivity
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.ProfileFragment
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.SignInFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    override val fragmentContainerId: Int = R.id.main_activity_container
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        binding = ActivityMainBinding.inflate(layoutInflater).also {
-            setContentView(it.root)
-        }
+        supportFragmentManager.beginTransaction()
+            .add(
+                fragmentContainerId,
+                ProfileFragment(),
+                SignInFragment.SIGN_IN_FRAGMENT_TAG,
+            )
+            .commit()
     }
-    override fun onDestroy() {
-        binding = null
-        super.onDestroy()
-    }
+
 }

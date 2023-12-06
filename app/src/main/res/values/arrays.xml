@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter">
+        <item>Difficulty in descending order</item>
+        <item>Difficulty in ascending order</item>
+        <item>Rating in descending order</item>
+        <item>Rating in ascending order</item>
+    </string-array>
+</resources>
