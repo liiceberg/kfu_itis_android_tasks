@@ -65,17 +65,14 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     return false
                 }
             }
-            if (phoneEt.text?.length != 18) {
-                phoneEt.error = context?.getString(R.string.phone_error)
-                return false
-            }
             emailEt.text?.let { email ->
                 if (!email.matches(Regex("\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*\\.\\w{2,4}"))) {
                     emailEt.error = context?.getString(R.string.email_error)
                     return false
                 }
             }
-            return ValidationUtil.validatePassword(passwordEt, passwordRepeatEt, context)
+            return ValidationUtil.validatePhone(phoneEt, context) &&
+            ValidationUtil.validatePassword(passwordEt, passwordRepeatEt, context)
         }
     }
 

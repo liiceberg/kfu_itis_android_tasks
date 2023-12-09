@@ -28,5 +28,13 @@ object ValidationUtil {
         return true
     }
 
+    fun validatePhone(phoneEt: AppCompatEditText, context: Context?): Boolean {
+        if (phoneEt.text?.length != 18) {
+            phoneEt.error = context?.getString(R.string.phone_error)
+            return false
+        }
+//        TODO unique
+        return true
+    }
 
 }

@@ -46,4 +46,8 @@
     <string name="delete_message">Account can be restored within 7 days, then it will be permanently deleted</string>
     <string name="user_not_found_error">Account with this email not found</string>
     <string name="incorrect_password_error">Invalid password</string>
+    <string name="duration">Production time</string>
+    <string name="image">Image link</string>
+    <string name="card_created">Card was successfully created</string>
+    <string name="old_password_error">Old password entered incorrectly</string>
 </resources>

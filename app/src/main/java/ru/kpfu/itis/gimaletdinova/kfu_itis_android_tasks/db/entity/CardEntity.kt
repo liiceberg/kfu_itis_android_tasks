@@ -15,11 +15,12 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["title", "rating"], unique = true)]
 )
 data class CardEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     var title: String,
     var description: String,
     var instruments: String?,
-    var rating: Int?,
+    var rating: Int? = 0,
+    val image: String?,
     @ColumnInfo(name = "production_time") val productionTime: Int,
-    @ColumnInfo(name = "author_id") val authorId: Int
+    @ColumnInfo(name = "author_id") val authorId: Int?
 )

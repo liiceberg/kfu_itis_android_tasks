@@ -14,6 +14,7 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentSignInBinding
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.db.entity.UserEntity
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.di.ServiceLocator
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.CurrentUser
 
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
@@ -39,7 +40,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                     if (validate()) {
                         parentFragmentManager.popBackStack()
                         parentFragmentManager.beginTransaction()
-                            .add(
+                            .replace(
                                 (requireActivity() as MainActivity).fragmentContainerId,
                                 MainFragment(),
                                 MainFragment.MAIN_FRAGMENT_TAG
@@ -70,8 +71,16 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                 passwordEt.error = context?.getString(R.string.incorrect_password_error)
                 return false
             }
+            updateCurrentUser(user)
             return true
         }
+    }
+
+    private fun updateCurrentUser(user: UserEntity) {
+        CurrentUser.userId = user.id
+        CurrentUser.username = user.username
+        CurrentUser.email = user.email
+        CurrentUser.phone = user.phone
     }
 
     companion object {
