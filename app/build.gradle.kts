@@ -46,6 +46,8 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+
     val viewBindingDelegateVersion = "1.5.9"
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewBindingDelegateVersion")
 

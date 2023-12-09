@@ -36,65 +36,64 @@
             android:id="@+id/username_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:inputType="text"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/phone_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/phone" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/phone_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:inputType="number"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/email_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/email" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:inputType="textEmailAddress"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/password_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/password" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:inputType="textPassword"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/password_repeat_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/repeat_password" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/password_repeat_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:inputType="textPassword"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sign_in_btn"
+        android:id="@+id/sign_up_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

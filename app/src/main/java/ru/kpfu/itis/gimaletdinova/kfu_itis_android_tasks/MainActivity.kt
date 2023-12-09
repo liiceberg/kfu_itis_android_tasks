@@ -2,7 +2,7 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks
 
 import android.os.Bundle
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.base.BaseActivity
-import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.ProfileFragment
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.di.ServiceLocator
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.SignInFragment
 
 class MainActivity : BaseActivity() {
@@ -14,7 +14,7 @@ class MainActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
             .add(
                 fragmentContainerId,
-                ProfileFragment(),
+                SignInFragment(),
                 SignInFragment.SIGN_IN_FRAGMENT_TAG,
             )
             .commit()

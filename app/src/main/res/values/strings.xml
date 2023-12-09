@@ -10,9 +10,9 @@
     <string name="phone">Phone</string>
     <string name="username">Username</string>
     <string name="no_cards_in_db">The cards you create will be displayed here</string>
-    <string name="difficulty">Difficulty:\n $s</string>
-    <string name="instruments">Instruments:\n $s</string>
-    <string name="description">Description:\n $s</string>
+    <string name="difficulty">Difficulty:\n %1$s</string>
+    <string name="instruments">Instruments:\n %1$s</string>
+    <string name="description">Description:\n %1$s</string>
     <string name="create_new_card">Create new card</string>
     <string name="create">Create</string>
     <string name="title">Title</string>
@@ -22,9 +22,9 @@
     <string name="choose_difficulty">Difficulty</string>
     <string name="write_instruments">Instruments</string>
     <string name="write_description">Description</string>
-    <string name="profile_phone">Phone: $s</string>
-    <string name="profile_username">Username: $s</string>
-    <string name="profile_email">Email: $s</string>
+    <string name="profile_phone">Phone: %1$s</string>
+    <string name="profile_username">Username: %1$s</string>
+    <string name="profile_email">Email: %1$s</string>
     <string name="edit">Edit</string>
     <string name="exit">Exit</string>
     <string name="delete_account">Delete account</string>
@@ -32,4 +32,18 @@
     <string name="new_password">New password</string>
     <string name="new_password_repeat">Repeat new password</string>
     <string name="filter">Sort by</string>
+    <string name="username_error">Username must contain from 3 to 16 letters</string>
+    <string name="phone_error">Phone must contain 11 digits</string>
+    <string name="email_error">Incorrect email</string>
+    <string name="password_digits_match_error">Password must contain letters</string>
+    <string name="password_letters_match_error">Password must contain digits</string>
+    <string name="password_error">Password must be at least 8 characters long and must contain letters and digits</string>
+    <string name="passwords_not_equals_error">Passwords not equals</string>
+    <string name="account_created">Account was successfully created</string>
+    <string name="cancel">Cancel</string>
+    <string name="warning">Warning</string>
+    <string name="exit_message">Are you sure you want to exit?</string>
+    <string name="delete_message">Account can be restored within 7 days, then it will be permanently deleted</string>
+    <string name="user_not_found_error">Account with this email not found</string>
+    <string name="incorrect_password_error">Invalid password</string>
 </resources>
