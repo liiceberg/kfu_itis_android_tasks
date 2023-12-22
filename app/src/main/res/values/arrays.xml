@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter">
+        <item>production time in descending order</item>
+        <item>production time in ascending order</item>
+        <item>rating in descending order</item>
+        <item>rating in ascending order</item>
+    </string-array>
+</resources>
