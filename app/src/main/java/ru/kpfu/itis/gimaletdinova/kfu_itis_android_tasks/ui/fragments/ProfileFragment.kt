@@ -3,6 +3,7 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +74,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                                     )
                                 }
                             }
+                            oldPasswordEt.text = null
+                            newPasswordEt.text = null
+                            newPasswordRepeatEt.text = null
                         }
                     }
                 }
@@ -130,7 +134,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         ServiceLocator.getSharedPreferences().edit()
             .remove(USER_ID_KEY)
             .apply()
-        parentFragmentManager.popBackStack()
+        parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         parentFragmentManager.beginTransaction()
             .replace(
                 (requireActivity() as MainActivity).fragmentContainerId,

@@ -10,10 +10,10 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.CurrentUser
 
 class CardHolder(
     private val binding: ItemCardBinding,
-    private val onLikeClicked: (position: Int, card: CardModel) -> Unit,
+    private val onLikeClicked: (newCard:CardModel, card: CardModel) -> Unit,
     private val onCardClicked: (card: CardModel) -> Unit,
-    private val onDeleteClicked: (position: Int, card: CardModel) -> Unit,
-    private val glide: RequestManager,
+    private val onDeleteClicked: (card: CardModel) -> Unit,
+    private val glide: RequestManager
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var item: CardModel? = null
@@ -27,12 +27,12 @@ class CardHolder(
                 item?.let { card ->
                     val itemCopy = card.copy(isLiked = !card.isLiked)
                     changeLikeBtnStatus(itemCopy.isLiked)
-                    onLikeClicked(adapterPosition, itemCopy)
+                    onLikeClicked(itemCopy, card)
                 }
             }
             deleteBtnIv.setOnClickListener {
                 item?.let {
-                    onDeleteClicked(adapterPosition, it)
+                    onDeleteClicked(it)
                 }
             }
         }
@@ -53,7 +53,7 @@ class CardHolder(
     }
 
     private fun changeLikeBtnStatus(isLiked: Boolean) {
-        val color = if (isLiked) R.color.black else R.color.grey
-        binding.likeBtnIv.setColorFilter(color)
+        val likeDrawable = if (isLiked) R.drawable.like_selected else R.drawable.like
+        binding.likeBtnIv.setImageResource(likeDrawable)
     }
 }

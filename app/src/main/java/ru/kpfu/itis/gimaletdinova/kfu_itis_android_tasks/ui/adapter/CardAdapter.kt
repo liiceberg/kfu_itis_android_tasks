@@ -12,9 +12,9 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.holder.CardHolder
 class CardAdapter(
     diffCallback: DiffUtil.ItemCallback<CardModel>,
     private val glide: RequestManager,
-    private val onLikeClicked: (position: Int, card: CardModel) -> Unit,
+    private val onLikeClicked: (newCard:CardModel, card: CardModel) -> Unit,
     private val onCardClicked: (card: CardModel) -> Unit,
-    private val onDeleteClicked: (position: Int, card: CardModel) -> Unit,
+    private val onDeleteClicked: (card: CardModel) -> Unit
 ) : ListAdapter<CardModel, CardHolder>(diffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
         return CardHolder(
@@ -31,22 +31,21 @@ class CardAdapter(
     fun setItems(items: List<CardModel>) {
         submitList(items)
     }
-
-    fun updateItem(position: Int, item: CardModel) {
+    fun updateItem(newItem: CardModel, item: CardModel) {
         val list = currentList.toMutableList()
-        list[position] = item
+        val position = list.indexOf(item)
+        list[position] = newItem
+        submitList(list)
+    }
+    fun removeItem(item: CardModel) {
+        val list = currentList.toMutableList()
+        list.remove(item)
         submitList(list)
     }
 
-    fun removeItem(position: Int) {
+    fun addItem(item: CardModel) {
         val list = currentList.toMutableList()
-        list.removeAt(position)
-        submitList(list)
-    }
-
-    fun addItem(position: Int, item: CardModel) {
-        val list = currentList.toMutableList()
-        list.add(position, item)
+        list.add(item)
         submitList(list)
     }
 

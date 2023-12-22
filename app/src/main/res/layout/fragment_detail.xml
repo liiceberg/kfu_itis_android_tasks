@@ -52,35 +52,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/rating" />
+                tools:text="@string/rating" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/difficulty_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/difficulty" />
+                tools:text="@string/difficulty" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/time" />
+                tools:text="@string/time" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/instruments_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/instruments" />
+                tools:text="@string/instruments" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/description" />
+                tools:text="@string/description" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>

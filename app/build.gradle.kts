@@ -49,6 +49,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
     val viewBindingDelegateVersion = "1.5.9"
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewBindingDelegateVersion")

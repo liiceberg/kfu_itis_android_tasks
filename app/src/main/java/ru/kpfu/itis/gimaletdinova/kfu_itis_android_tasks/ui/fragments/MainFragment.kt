@@ -41,7 +41,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         initRecyclerView()
         initFavouritesRecyclerView()
         initFilter()
+
         with(binding) {
+            doFilter(filterSpinner.selectedItemPosition)
             createBtn.setOnClickListener {
                 parentFragmentManager.beginTransaction()
                     .replace(
@@ -56,56 +58,49 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun initFilter() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.filter,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.filterSpinner.adapter = adapter
-        }
-
-        binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-//                TODO correct
-                val list = cardAdapter?.currentList?.map{it.copy()}
-                when (position) {
-                    0 -> {
-                        list?.sortedWith(CardProductionTimeComparator())
-                        list?.let {
-                            cardAdapter?.setItems(it)
-                        }
-                    }
-
-                    1 -> {
-                        list?.sortedWith(CardProductionTimeComparator())
-                        list?.let {
-                            cardAdapter?.setItems(it.reversed())
-                        }
-                    }
-
-                    2 -> {
-                        list?.sortedWith(CardRatingComparator())
-                        list?.let {
-                            cardAdapter?.setItems(it)
-                        }
-                    }
-
-                    3 -> {
-                        list?.sortedWith(CardRatingComparator())
-                        list?.let {
-                            cardAdapter?.setItems(it.reversed())
-                        }
-                    }
-                }
+        binding.filterSpinner.apply {
+            ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.filter,
+                android.R.layout.simple_spinner_item
+            ).also { spinnerAdapter ->
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter = spinnerAdapter
             }
+            onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) { doFilter(position) }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
+        }
+    }
+    private fun doFilter(position: Int) {
+        println(position)
+        cardAdapter?.currentList?.map { it.copy() }?.let { list ->
+            when (position) {
+                0 -> cardAdapter?.setItems(
+                    list.sortedWith(CardProductionTimeComparator()).reversed()
+                )
+
+                1 -> cardAdapter?.setItems(
+                    list.sortedWith(CardProductionTimeComparator())
+                )
+
+                2 -> cardAdapter?.setItems(
+                    list.sortedWith(CardRatingComparator()).reversed()
+                )
+
+                3 -> cardAdapter?.setItems(
+                    list.sortedWith(CardRatingComparator())
+                )
+                else -> {}
+            }
         }
     }
 
@@ -138,6 +133,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                         c.image,
                         c.description,
                         c.instruments,
+                        c.difficulty,
                         c.rating,
                         c.authorId,
                         c.productionTime
@@ -177,6 +173,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                     c.image,
                     c.description,
                     c.instruments,
+                    c.difficulty,
                     c.rating,
                     c.authorId,
                     c.productionTime,
@@ -184,25 +181,25 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 )
                 cards.add(card)
             }
-            if (cards.isEmpty()) {
-                binding.favouritesRv.visibility = View.GONE
-            } else {
-                favouritesAdapter?.setItems(cards)
-            }
+            favouritesAdapter?.setItems(cards)
         }
     }
 
-    private fun onDeleteClicked(index: Int, cardModel: CardModel) {
+    private fun onDeleteClicked(cardModel: CardModel) {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 ServiceLocator.getDbInstance().cardDao.delete(cardModel.id)
             }
         }
-        cardAdapter?.removeItem(index)
+        cardAdapter?.removeItem(cardModel)
+        favouritesAdapter?.removeItem(cardModel)
+        cardAdapter?.currentList?.let { list ->
+            if (list.isEmpty()) binding.noCardsTv.visibility = View.VISIBLE
+        }
     }
 
-    private fun onLikeClicked(index: Int, cardModel: CardModel) {
-        cardAdapter?.updateItem(index, cardModel)
+    private fun onLikeClicked(newCardModel: CardModel, cardModel: CardModel) {
+        cardAdapter?.updateItem(newCardModel, cardModel)
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -212,15 +209,15 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                             userId,
                             cardModel.id!!
                         )
-                        if (cardModel.isLiked) {
+                        if (newCardModel.isLiked) {
                             save(favourite)
+                            favouritesAdapter?.addItem(newCardModel)
                         } else {
                             delete(favourite)
+                            favouritesAdapter?.removeItem(cardModel)
                         }
                     }
                 }
-
-                println(ServiceLocator.getDbInstance().favouritesDao.get(CurrentUser.userId))
             }
         }
     }
@@ -229,7 +226,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         parentFragmentManager.beginTransaction()
             .replace(
                 (requireActivity() as MainActivity).fragmentContainerId,
-                DetailFragment.newInstance(cardModel.id),
+                DetailFragment.newInstance(cardModel),
                 DetailFragment.DETAIL_FRAGMENT_TAG,
             )
             .addToBackStack(null)

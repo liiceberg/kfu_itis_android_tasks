@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.db.AppDatabase
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.ParamKeys.SHARED_PREFERENCES
 
 object ServiceLocator {
 
@@ -15,7 +16,7 @@ object ServiceLocator {
         dbInstance = Room.databaseBuilder(ctx, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
             .build()
 
-        preferences = ctx.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        preferences = ctx.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
     }
 
     fun getDbInstance(): AppDatabase {
