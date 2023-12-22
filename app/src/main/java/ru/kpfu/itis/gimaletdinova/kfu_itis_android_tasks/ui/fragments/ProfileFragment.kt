@@ -73,10 +73,10 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                                         newPasswordEt.text.toString()
                                     )
                                 }
+                                oldPasswordEt.text = null
+                                newPasswordEt.text = null
+                                newPasswordRepeatEt.text = null
                             }
-                            oldPasswordEt.text = null
-                            newPasswordEt.text = null
-                            newPasswordRepeatEt.text = null
                         }
                     }
                 }
