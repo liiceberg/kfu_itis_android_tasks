@@ -14,8 +14,8 @@ object ServiceLocator {
     fun initData(ctx: Context) {
         dbInstance = Room.databaseBuilder(ctx, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
             .build()
-// TODO replace pref name
-        preferences = ctx.getSharedPreferences("inception_pref", Context.MODE_PRIVATE)
+
+        preferences = ctx.getSharedPreferences("preferences", Context.MODE_PRIVATE)
     }
 
     fun getDbInstance(): AppDatabase {

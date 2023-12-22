@@ -2,7 +2,12 @@ package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util
 
 import android.content.Context
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.lifecycle.LifecycleCoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.di.ServiceLocator
 
 object ValidationUtil {
 
@@ -28,12 +33,20 @@ object ValidationUtil {
         return true
     }
 
-    fun validatePhone(phoneEt: AppCompatEditText, context: Context?): Boolean {
+    suspend fun validatePhone(phoneEt: AppCompatEditText, context: Context?, lifecycleScope: LifecycleCoroutineScope): Boolean {
         if (phoneEt.text?.length != 18) {
             phoneEt.error = context?.getString(R.string.phone_error)
             return false
         }
-//        TODO unique
+        val exist = lifecycleScope.async {
+            withContext(Dispatchers.IO) {
+                ServiceLocator.getDbInstance().userDao.isPhoneExist(phoneEt.text.toString())
+            }
+        }.await()
+        if (exist) {
+            phoneEt.error = context?.getString(R.string.phone_already_exist)
+            return false
+        }
         return true
     }
 

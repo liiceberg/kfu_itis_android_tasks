@@ -15,12 +15,15 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentSig
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.db.entity.UserEntity
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.di.ServiceLocator
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.CurrentUser
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.ParamKeys.USER_ID_KEY
 
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     private val binding: FragmentSignInBinding by viewBinding(FragmentSignInBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+// TODO onCreateView?
+        isRemembered()
 
         with(binding) {
 
@@ -38,19 +41,45 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             signInBtn.setOnClickListener {
                 lifecycleScope.launch {
                     if (validate()) {
-                        parentFragmentManager.popBackStack()
-                        parentFragmentManager.beginTransaction()
-                            .replace(
-                                (requireActivity() as MainActivity).fragmentContainerId,
-                                MainFragment(),
-                                MainFragment.MAIN_FRAGMENT_TAG
-                            )
-                            .commit()
+                        ServiceLocator.getSharedPreferences()
+                            .edit()
+                            .putInt(USER_ID_KEY, CurrentUser.userId!!)
+                            .apply()
+                        signIn()
                     }
                 }
             }
 
         }
+    }
+
+    private fun signIn() {
+        parentFragmentManager.popBackStack()
+        parentFragmentManager.beginTransaction()
+            .replace(
+                (requireActivity() as MainActivity).fragmentContainerId,
+                MainFragment(),
+                MainFragment.MAIN_FRAGMENT_TAG
+            )
+            .commit()
+    }
+
+    private fun isRemembered() {
+        lifecycleScope.launch {
+            val userId = ServiceLocator.getSharedPreferences().getInt(USER_ID_KEY, -1)
+            if (userId != -1) {
+                updateCurrentUser(getUser(userId))
+                signIn()
+            }
+        }
+    }
+
+    private suspend fun getUser(id: Int): UserEntity? {
+        return lifecycleScope.async {
+            withContext(Dispatchers.IO) {
+                ServiceLocator.getDbInstance().userDao.get(id)
+            }
+        }.await()
     }
 
     private suspend fun validate(): Boolean {
@@ -76,11 +105,13 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         }
     }
 
-    private fun updateCurrentUser(user: UserEntity) {
-        CurrentUser.userId = user.id
-        CurrentUser.username = user.username
-        CurrentUser.email = user.email
-        CurrentUser.phone = user.phone
+    private fun updateCurrentUser(user: UserEntity?) {
+        user?.apply {
+            CurrentUser.userId = id
+            CurrentUser.username = username
+            CurrentUser.email = email
+            CurrentUser.phone = phone
+        }
     }
 
     companion object {

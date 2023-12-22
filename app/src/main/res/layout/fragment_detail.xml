@@ -38,7 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                tools:srcCompat="@drawable/card_img"/>
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating_rb"
@@ -47,11 +48,25 @@
                 android:layout_marginTop="16dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rating_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/rating" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/difficulty_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/difficulty" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/time" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/instruments_tv"

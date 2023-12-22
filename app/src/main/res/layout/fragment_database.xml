@@ -78,6 +78,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/beginner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -85,12 +86,14 @@
                     android:text="@string/difficulty_beginner" />
 
                 <RadioButton
+                    android:id="@+id/medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/difficulty_medium" />
 
                 <RadioButton
+                    android:id="@+id/master"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -129,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

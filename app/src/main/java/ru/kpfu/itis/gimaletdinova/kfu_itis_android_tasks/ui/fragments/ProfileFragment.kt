@@ -11,10 +11,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.MainActivity
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.base.BaseActivity
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.base.BaseFragment
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.databinding.FragmentProfileBinding
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.di.ServiceLocator
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.CurrentUser
+import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.ParamKeys.USER_ID_KEY
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.PhoneInputTextWatcher
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.util.ValidationUtil
 
@@ -23,7 +25,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        TODO hide icon in toolbar
+        (requireActivity() as BaseActivity).hideProfileItem = true
         setToolbarTitle(R.string.profile)
         with(binding) {
             usernameTv.text =
@@ -36,17 +38,19 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 addTextChangedListener(PhoneInputTextWatcher(this))
             }
             phoneEditBtn.setOnClickListener {
-                if (ValidationUtil.validatePhone(phoneEt, context)) {
-                    val phone = phoneEt.text.toString()
-                    CurrentUser.phone = phone
-                    phoneTv.text = requireContext().getString(R.string.profile_phone, CurrentUser.phone)
-                    lifecycleScope.launch {
+                lifecycleScope.launch {
+                    if (ValidationUtil.validatePhone(phoneEt, context, lifecycleScope)) {
+                        val phone = phoneEt.text.toString()
+                        CurrentUser.phone = phone
+                        phoneTv.text =
+                            requireContext().getString(R.string.profile_phone, CurrentUser.phone)
                         withContext(Dispatchers.IO) {
                             ServiceLocator.getDbInstance().userDao.updatePhone(
                                 CurrentUser.userId,
                                 phone
                             )
                         }
+
                     }
                 }
             }
@@ -123,6 +127,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         CurrentUser.username = ""
         CurrentUser.phone = ""
         CurrentUser.email = ""
+        ServiceLocator.getSharedPreferences().edit()
+            .remove(USER_ID_KEY)
+            .apply()
         parentFragmentManager.popBackStack()
         parentFragmentManager.beginTransaction()
             .replace(
@@ -140,6 +147,11 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 ServiceLocator.getDbInstance().userDao.delete(CurrentUser.userId)
             }
         }
+    }
+
+    override fun onDestroy() {
+        (requireActivity() as BaseActivity).hideProfileItem = false
+        super.onDestroy()
     }
 
     companion object {

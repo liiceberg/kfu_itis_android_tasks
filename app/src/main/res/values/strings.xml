@@ -10,9 +10,9 @@
     <string name="phone">Phone</string>
     <string name="username">Username</string>
     <string name="no_cards_in_db">The cards you create will be displayed here</string>
-    <string name="difficulty">Difficulty:\n %1$s</string>
-    <string name="instruments">Instruments:\n %1$s</string>
-    <string name="description">Description:\n %1$s</string>
+    <string name="difficulty">Difficulty: %1$s</string>
+    <string name="instruments">Instruments: %1$s</string>
+    <string name="description">Description: %1$s</string>
     <string name="create_new_card">Create new card</string>
     <string name="create">Create</string>
     <string name="title">Title</string>
@@ -50,4 +50,11 @@
     <string name="image">Image link</string>
     <string name="card_created">Card was successfully created</string>
     <string name="old_password_error">Old password entered incorrectly</string>
+    <string name="time">Production time: %1$d</string>
+    <string name="rating">Rating: %1$s</string>
+    <string name="email_already_exist">This email already registered</string>
+    <string name="phone_already_exist">This phone already registered</string>
+    <string name="main">Knitting patterns</string>
+    <string name="empty_field_error">Field must be not empty</string>
+    <string name="card_already_exist_error">Such pattern already exist</string>
 </resources>

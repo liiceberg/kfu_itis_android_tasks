@@ -25,6 +25,6 @@ abstract class BaseFragment(@LayoutRes layout: Int): Fragment(layout) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu, menu)
     }
 }

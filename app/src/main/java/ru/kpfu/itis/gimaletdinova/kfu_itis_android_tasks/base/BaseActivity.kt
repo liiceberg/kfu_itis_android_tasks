@@ -7,13 +7,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.MainActivity
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.R
 import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.ui.fragments.ProfileFragment
 
 abstract class BaseActivity : AppCompatActivity() {
 
     abstract val fragmentContainerId: Int
+    var hideProfileItem = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportFragmentManager.registerFragmentLifecycleCallbacks(object :
@@ -38,6 +38,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
+        if (hideProfileItem) {
+            menu.findItem(R.id.profile_item).setVisible(false)
+        }
         return true;
     }
 

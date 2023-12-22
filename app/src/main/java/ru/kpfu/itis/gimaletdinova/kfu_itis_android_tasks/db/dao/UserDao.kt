@@ -18,7 +18,7 @@ interface UserDao {
     @Query("DELETE from users where id = :userId;")
     fun delete(userId: Int?)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     fun save(user: UserEntity)
 
     @Query("UPDATE users SET phone = :phone where id = :userId")
@@ -26,4 +26,10 @@ interface UserDao {
 
     @Query("UPDATE users SET password = :password where id = :userId")
     fun updatePassword(userId: Int?, password: String)
+
+    @Query("SELECT EXISTS(SELECT 1 from users where email = :email)")
+    fun isEmailExist(email: String) : Boolean
+
+    @Query("SELECT EXISTS(SELECT 1 from users where phone = :phone)")
+    fun isPhoneExist(phone: String) : Boolean
 }

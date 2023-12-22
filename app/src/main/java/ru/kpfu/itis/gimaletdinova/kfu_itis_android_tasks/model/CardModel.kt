@@ -1,10 +1,13 @@
 package ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.model
 
 data class CardModel(
-    val id: Int,
+    val id: Int?,
     var title: String,
+    val imageUri: String?,
     var description: String,
     var instruments: String?,
-    var rating: Int?,
-    val authorId: Int
+    var rating: Double,
+    val authorId: Int?,
+    val productionTime: Int,
+    var isLiked: Boolean = false
 )
