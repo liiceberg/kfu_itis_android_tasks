@@ -8,7 +8,7 @@ import ru.kpfu.itis.gimaletdinova.kfu_itis_android_tasks.db.entity.CardEntity
 
 @Dao
 interface CardDao {
-    @Query("SELECT * from cards")
+    @Query("SELECT * from cards order by production_time desc")
     fun getAll(): List<CardEntity>?
 
     @Query("SELECT * from cards where id = :cardId;")

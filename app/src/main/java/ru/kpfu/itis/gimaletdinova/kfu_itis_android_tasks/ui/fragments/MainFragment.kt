@@ -38,12 +38,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle(R.string.main)
+        initFilter()
         initRecyclerView()
         initFavouritesRecyclerView()
-        initFilter()
 
         with(binding) {
-            doFilter(filterSpinner.selectedItemPosition)
+
             createBtn.setOnClickListener {
                 parentFragmentManager.beginTransaction()
                     .replace(
@@ -81,7 +81,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         }
     }
     private fun doFilter(position: Int) {
-        println(position)
         cardAdapter?.currentList?.map { it.copy() }?.let { list ->
             when (position) {
                 0 -> cardAdapter?.setItems(
@@ -144,6 +143,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                     cards.add(card)
                 }
                 cardAdapter?.setItems(cards)
+                binding.filterSpinner.setSelection(0)
             }
 
         }
